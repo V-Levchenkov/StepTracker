@@ -1,68 +1,78 @@
 import java.util.HashMap;
 
 public class StepTracker {
-    private int TargetSteps = 10000;
-    protected static HashMap<Integer, MonthData> MonthToData = new HashMap<>();
+    private int targetSteps = 10000;
+    protected HashMap<Integer, MonthData> monthToData = new HashMap<>();
     Converter converter = new Converter();
 
     public StepTracker() {
         for (int i = 1; i < 13; i++)
-            MonthToData.put(i, new MonthData());
+            monthToData.put(i, new MonthData());
     }
 
-    public static void addStepsPerDay(int month, int data, int steps) {
-        MonthToData.get(month).addData(data, steps);
+    public void addStepsPerDay(int month, int data, int steps) {
+        monthToData.get(month).addData(data, steps);
     }
 
     public int getTargetSteps() {
-        return TargetSteps;
+        return targetSteps;
     }
 
-    public void setTargetSteps(int targetSteps) {
-        TargetSteps = targetSteps;
+    public void setTargetSteps(int targetStep) {
+        targetSteps = targetStep;
     }
 
-    protected static class MonthData {
-        static int[] MonthSteps;
+    public static class MonthData {
+        int[] monthSteps;
 
         public MonthData() {
-            MonthSteps = new int[30];
+            monthSteps = new int[30];
         }
 
         public void addData(int data, int steps) {
-            MonthSteps[data - 1] = steps;
+            monthSteps[data - 1] = steps;
         }
     }
 
-    public void PrintAllSteps(int month) {
-        MonthToData.get(month);
-        for (int i = 0; i < MonthData.MonthSteps.length; i++) {
-            System.out.print((i + 1) + " день: " + MonthData.MonthSteps[i] + ", ");
+    public int maxSteps(int month) {
+        MonthData monthData = monthToData.get(month);
+        int maxSteps = 0;
+        for (int i = 0; i < monthData.monthSteps.length; i++) {
+            if (monthData.monthSteps[i] > maxSteps) {
+                maxSteps = monthData.monthSteps[i];
+            }
+        }
+        return maxSteps;
+    }
+
+    public void printAllSteps(int month) {
+        MonthData monthData = monthToData.get(month);
+        for (int i = 0; i < monthData.monthSteps.length; i++) {
+            System.out.print((i + 1) + " день: " + monthData.monthSteps[i] + ", ");
         }
         System.out.println(" ");
         int SumSteps = 0;
-        for (int i = 0; i < MonthData.MonthSteps.length; i++) {
-            SumSteps = SumSteps + MonthData.MonthSteps[i];
+        for (int i = 0; i < monthData.monthSteps.length; i++) {
+            SumSteps = SumSteps + monthData.monthSteps[i];
         }
         int goal = 1;
         int MaxGoal = 0;
-        for (int i = 0; i < MonthData.MonthSteps.length; i++) {
-            if ((MonthData.MonthSteps[i] >= TargetSteps) && (MonthData.MonthSteps[i + 1] >= TargetSteps)) {
+        for (int i = 0; i < monthData.monthSteps.length; i++) {
+            if ((monthData.monthSteps[i] >= targetSteps) && (monthData.monthSteps[i + 1] >= targetSteps)) {
                 goal++;
                 if (goal > MaxGoal) {
                     MaxGoal = goal;
                 } else goal = 0;
             }
         }
+
         converter.setDistance(SumSteps);
         converter.setCall(SumSteps);
         System.out.println("Общее количество шагов за месяц: " + SumSteps);
-        System.out.println("Максимальное пройденое количество шагов в месяце : " + converter.MaxSteps(month));
-        System.out.println("Среднее количество шагов за месяц: " + (SumSteps / MonthData.MonthSteps.length));
+        System.out.println("Максимальное пройденое количество шагов в месяце : " + maxSteps(month));
+        System.out.println("Среднее количество шагов за месяц: " + (SumSteps / monthData.monthSteps.length));
         System.out.println("Пройденная дистанция в км : " + converter.getDistance());
         System.out.println("Количество сожженых Ккаллорий : " + converter.getCall());
         System.out.println("Лучшая серия по выполнению цели: " + MaxGoal + " дня");
     }
-
-
 }

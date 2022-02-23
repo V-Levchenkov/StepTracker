@@ -17,12 +17,12 @@ public class Main {
                 System.out.println("Введите количество шагов");
                 int steps;
                 steps = scanner.nextInt();
-                StepTracker.addStepsPerDay(month, day, steps);
+                stepTracker.addStepsPerDay(month, day, steps);
                 // Ввести количество шагов за определённый день;
             } else if (command == 2) {
                 System.out.println("Виберите требуемый месяц : 1 - январь, 12 - декабрь");
                 int monthCheck = scanner.nextInt();
-                stepTracker.PrintAllSteps(monthCheck);
+                stepTracker.printAllSteps(monthCheck);
                 //Напечатать статистику за определённый месяц;
             } else if (command == 3) {
                 System.out.println("Введите новую цель по шагам в день(число не должно быть отрицательным)");
