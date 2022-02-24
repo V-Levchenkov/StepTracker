@@ -51,28 +51,28 @@ public class StepTracker {
             System.out.print((i + 1) + " день: " + monthData.monthSteps[i] + ", ");
         }
         System.out.println(" ");
-        int SumSteps = 0;
+        int sumSteps = 0;
         for (int i = 0; i < monthData.monthSteps.length; i++) {
-            SumSteps = SumSteps + monthData.monthSteps[i];
+            sumSteps = sumSteps + monthData.monthSteps[i];
         }
         int goal = 1;
-        int MaxGoal = 0;
+        int maxGoal = 0;
         for (int i = 0; i < monthData.monthSteps.length; i++) {
             if ((monthData.monthSteps[i] >= targetSteps) && (monthData.monthSteps[i + 1] >= targetSteps)) {
                 goal++;
-                if (goal > MaxGoal) {
-                    MaxGoal = goal;
+                if (goal > maxGoal) {
+                    maxGoal = goal;
                 } else goal = 0;
             }
         }
 
-        converter.setDistance(SumSteps);
-        converter.setCall(SumSteps);
-        System.out.println("Общее количество шагов за месяц: " + SumSteps);
+        converter.setDistance(sumSteps);
+        converter.setCall(sumSteps);
+        System.out.println("Общее количество шагов за месяц: " + sumSteps);
         System.out.println("Максимальное пройденое количество шагов в месяце : " + maxSteps(month));
-        System.out.println("Среднее количество шагов за месяц: " + (SumSteps / monthData.monthSteps.length));
+        System.out.println("Среднее количество шагов за месяц: " + (sumSteps / monthData.monthSteps.length));
         System.out.println("Пройденная дистанция в км : " + converter.getDistance());
         System.out.println("Количество сожженых Ккаллорий : " + converter.getCall());
-        System.out.println("Лучшая серия по выполнению цели: " + MaxGoal + " дня");
+        System.out.println("Лучшая серия по выполнению цели: " + maxGoal + " дня");
     }
 }
